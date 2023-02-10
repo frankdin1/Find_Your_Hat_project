@@ -26,10 +26,10 @@ class Field{
     play(){
         
         this.print()
+        process.stdout.write('Which way? ');
         process.stdin.on('data', (userIn) =>{
             let input = userIn.toString().trim();
-            // myField.print(direction)
-            // process.stdout.write('Which way? ');
+            
         //});
             //print(input){
                 let fieldHeight = this._arr.length;
@@ -48,7 +48,9 @@ class Field{
                     j = this._currentPos[1];
                     if(i < fieldHeight && this._arr[i][j] != '0' && this._arr[i][j] != '^'){
                         this._arr[i][j] = '*';
+                        console.clear()
                         this.print()
+                        process.stdout.write('Which way? ');
                     }
                     else if(i === fieldHeight){
                         console.log("Out of bounds")
@@ -69,7 +71,9 @@ class Field{
                     j = this._currentPos[1];
                     if(i >= 0 && this._arr[i][j] != '0' && this._arr[i][j] != '^'){
                         this._arr[i][j] = '*';
+                        console.clear()
                         this.print()
+                        process.stdout.write('Which way? ');
                     }
                     else if(i < 0){
                         console.log("Out of bounds")
@@ -90,7 +94,9 @@ class Field{
                     j = this._currentPos[1] -= 1;
                     if(j > 0 && this._arr[i][j] != '0' && this._arr[i][j] != '^'){
                         this._arr[i][j] = '*';
+                        console.clear()
                         this.print()
+                        process.stdout.write('Which way? ');
                     }
                     else if(i < 0){
                         console.log("Out of bounds")
@@ -111,7 +117,9 @@ class Field{
                     j = this._currentPos[1] += 1;
                     if(j < fieldWidth && this._arr[i][j] != '0' && this._arr[i][j] != '^'){
                         this._arr[i][j] = '*';
+                        console.clear()
                         this.print()
+                        process.stdout.write('Which way? ');
                     }
                     else if(this._arr[i][j] === '0'){
                         console.log("You fell into a hole.");
