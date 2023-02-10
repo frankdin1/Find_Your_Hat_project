@@ -129,15 +129,22 @@ class Field{
 const myField = new Field([
     ['*','░','0','0','░','0'],
 
-    ['░','0','░','0','░','0'],
+    ['░','░','░','0','░','0'],
 
-    ['░','^','░','0','0','░'],
+    ['0','░','░','0','0','░'],
+
+    ['0','0','░','░','░','░'],
+
+    ['░','^','0','░','░','░'],
+
+    ['░','░','░','░','0','░'],
 ]);
 
-process.stdout.write('Which way? ');
+process.stdout.write('Press ENTER ');
 process.stdin.on('data', (userIn) =>{
     let direction = userIn.toString().trim();
     myField.print(direction)
+    process.stdout.write('Which way? ');
 });
 
 
