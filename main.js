@@ -60,90 +60,71 @@ class Field{
         this.printField()
         this._direction = ('Which way? ');
     }
+
+    hatOrHole(symbol){
+        if(symbol === 'O'){
+            console.log("You fell into a hole.");
+            process.exit();
+        }
+        else if(symbol === '^'){
+            console.log("Hooray! You found your hat!!");
+            process.exit();
+        }
+    }
+
+    outOfBounds(position){
+        if (position < 0 || position === this._fieldHeight || position === this._fieldWidth){
+            console.log("Out of bounds")
+            process.exit();
+        }  
+    }
+
     startGame(){
         while(this._gameOn){
             this._direction = prompt('Which way?: ')
-            let fieldHeight = this._arr.length;
-            let fieldWidth = this._arr[0].length;
-            let i = 0;
-            let j = 0;
+            this._fieldHeight = this._arr.length;
+            this._fieldWidth = this._arr[0].length;
+            let i = this._currentPos[0];
+            let j = this._currentPos[1];
             if ( this._direction === "d" || this._direction === 'D' ){
                 i = this._currentPos[0] += 1;
                 j = this._currentPos[1];
-                if(i < fieldHeight && this._arr[i][j] != 'O' && this._arr[i][j] != '^'){
+                this.outOfBounds(i)
+                if(i < this._fieldHeight && this._arr[i][j] != 'O' && this._arr[i][j] != '^'){
                     this.moveAndReset(i, j)
                 }
-                else if(i === fieldHeight){
-                    console.log("Out of bounds")
-                    process.exit();
-                }
-                else if(this._arr[i][j] === 'O'){
-                    console.log("You fell into a hole.");
-                    process.exit();
-                }
-                else if(this._arr[i][j] === '^'){
-                    console.log("Hooray! You found your hat!!");
-                    process.exit();
-                }
+                else this.hatOrHole(this._arr[i][j])
             }
             if (this._direction === "u" || this._direction === 'U'){
                 i = this._currentPos[0] -= 1;
                 j = this._currentPos[1];
+                this.outOfBounds(i)
                 if(i >= 0 && this._arr[i][j] != 'O' && this._arr[i][j] != '^'){
                     this.moveAndReset(i, j)
                 }
-                else if(i < 0){
-                    console.log("Out of bounds")
-                    process.exit();
-                }
-                else if(this._arr[i][j] === 'O'){
-                    console.log("You fell into a hole.");
-                    process.exit();
-                }
-                else if(this._arr[i][j] === '^'){
-                    console.log("Hooray! You found your hat!!");
-                    process.exit();
-                }
+                else this.hatOrHole(this._arr[i][j])  
+                
             }
 
             if (this._direction === "l" || this._direction === 'L'){
-                i = this._currentPos[0] ;
+                i = this._currentPos[0]
                 j = this._currentPos[1] -= 1;
+                this.outOfBounds(j)
                 if(j > 0 && this._arr[i][j] != 'O' && this._arr[i][j] != '^'){
                     this.moveAndReset(i, j)
                 }
-                else if(j < 0){
-                    console.log("Out of bounds")
-                    process.exit();
-                }
-                else if(this._arr[i][j] === 'O'){
-                    console.log("You fell into a hole.");
-                    process.exit();
-                }
-                else if(this._arr[i][j] === '^'){
-                    console.log("Hooray! You found your hat!!");
-                    process.exit();
-                }
+                else this.hatOrHole(this._arr[i][j])   
+                
             }
 
             if (this._direction === "r" || this._direction === 'R'){
                 i = this._currentPos[0];
                 j = this._currentPos[1] += 1;
-                if(j < fieldWidth && this._arr[i][j] != 'O' && this._arr[i][j] != '^'){
+                this.outOfBounds(j) 
+                if(j < this._fieldWidth && this._arr[i][j] != 'O' && this._arr[i][j] != '^'){
                     this.moveAndReset(i, j)
                 }
-                else if(this._arr[i][j] === 'O'){
-                    console.log("You fell into a hole.");
-                    process.exit();
-                }
-                else if(this._arr[i][j] === '^'){
-                    console.log("Hooray! You found your hat!!");
-                    process.exit();
-                }
-                else{
-                    console.log("Out of bounds")
-                    process.exit();
-                }
+                else this.hatOrHole(this._arr[i][j])  
             }
         }
     }
@@ -152,9 +133,6 @@ class Field{
         this.generateField()
         this.printField()
         this.startGame()
-        //process.stdout.write('Which way? ');
-        //process.stdin.on('data', (userIn) =>{
-        
     }
     
 }
