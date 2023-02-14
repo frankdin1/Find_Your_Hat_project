@@ -8,9 +8,10 @@ const pathCharacter = '*';
 
 
 class Field{
-    constructor(arr = [], currentPos = [0,0]){
+    constructor(arr = [], currentPos = [0,0], gameOn = true){
         this._arr = arr;
         this._currentPos = currentPos;
+        this._gameOn = gameOn;
     }
 
     pickSymbol(){
@@ -39,7 +40,6 @@ class Field{
               this._arr[i][j] = symbolArr[k]
             }  
         }
-        console.log(this.arr)
         this._arr[0][0] = '*'
         this.endPoint(this._height, this._width)
     }
@@ -54,24 +54,24 @@ class Field{
         }    
     }
 
-    play(){
-        this.generateField()
+    moveAndReset(i, j){
+        this._arr[i][j] = '*';
+        console.clear()
         this.printField()
-        process.stdout.write('Which way? ');
-        process.stdin.on('data', (userIn) =>{
-            let input = userIn.toString().trim();
+        this._direction = ('Which way? ');
+    }
+    startGame(){
+        while(this._gameOn){
+            this._direction = prompt('Which way?: ')
             let fieldHeight = this._arr.length;
             let fieldWidth = this._arr[0].length;
             let i = 0;
             let j = 0;
-            if (input === "d" || input === 'D' ){
+            if ( this._direction === "d" || this._direction === 'D' ){
                 i = this._currentPos[0] += 1;
                 j = this._currentPos[1];
                 if(i < fieldHeight && this._arr[i][j] != 'O' && this._arr[i][j] != '^'){
-                    this._arr[i][j] = '*';
-                    console.clear()
-                    this.printField()
-                    process.stdout.write('Which way? ');
+                    this.moveAndReset(i, j)
                 }
                 else if(i === fieldHeight){
                     console.log("Out of bounds")
@@ -86,14 +86,11 @@ class Field{
                     process.exit();
                 }
             }
-            if (input === "u" || input === 'U'){
+            if (this._direction === "u" || this._direction === 'U'){
                 i = this._currentPos[0] -= 1;
                 j = this._currentPos[1];
                 if(i >= 0 && this._arr[i][j] != 'O' && this._arr[i][j] != '^'){
-                    this._arr[i][j] = '*';
-                    console.clear()
-                    this.printField()
-                    process.stdout.write('Which way? ');
+                    this.moveAndReset(i, j)
                 }
                 else if(i < 0){
                     console.log("Out of bounds")
@@ -109,16 +106,13 @@ class Field{
                 }
             }
 
-            if (input === "l" || input === 'L'){
+            if (this._direction === "l" || this._direction === 'L'){
                 i = this._currentPos[0] ;
                 j = this._currentPos[1] -= 1;
                 if(j > 0 && this._arr[i][j] != 'O' && this._arr[i][j] != '^'){
-                    this._arr[i][j] = '*';
-                    console.clear()
-                    this.printField()
-                    process.stdout.write('Which way? ');
+                    this.moveAndReset(i, j)
                 }
-                else if(i < 0){
+                else if(j < 0){
                     console.log("Out of bounds")
                     process.exit();
                 }
@@ -132,14 +126,11 @@ class Field{
                 }
             }
 
-            if (input === "r" || input === 'R'){
+            if (this._direction === "r" || this._direction === 'R'){
                 i = this._currentPos[0];
                 j = this._currentPos[1] += 1;
                 if(j < fieldWidth && this._arr[i][j] != 'O' && this._arr[i][j] != '^'){
-                    this._arr[i][j] = '*';
-                    console.clear()
-                    this.printField()
-                    process.stdout.write('Which way? ');
+                    this.moveAndReset(i, j)
                 }
                 else if(this._arr[i][j] === 'O'){
                     console.log("You fell into a hole.");
@@ -154,33 +145,21 @@ class Field{
                     process.exit();
                 }
             }
-        });
+        }
+    }
+
+    play(){
+        this.generateField()
+        this.printField()
+        this.startGame()
+        //process.stdout.write('Which way? ');
+        //process.stdin.on('data', (userIn) =>{
+        
     }
     
 }
-
-// const myField = new Field([
-//     ['*','░','0','0','░','0'],
-
-//     ['░','░','░','0','░','0'],
-
-//     ['0','░','░','0','0','░'],
-
-//     ['0','0','░','░','░','░'],
-
-//     ['░','^','0','░','░','░'],
-
-//     ['░','░','░','░','0','░'],
-// ]);
 const myField = new Field()
 myField.play()
-
-// process.stdout.write('Press ENTER ');
-// process.stdin.on('data', (userIn) =>{
-//     let direction = userIn.toString().trim();
-//     myField.print(direction)
-//     process.stdout.write('Which way? ');
-// });
 
 
 
